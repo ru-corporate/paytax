@@ -31,6 +31,10 @@ NAMER = dict(imed = 'Страховые взносы на обязательно
              simple = 'Налог, взимаемый в связи с применением упрощенной системы налогообложения',
              )
 
+# не переведет ИНН и название 
+def translate(key):
+    return NAMER.get(key, key)
+
 TAX_NAMES = list(NAMER.keys())
 ORG = 'org'
 INN = 'inn'
@@ -40,8 +44,8 @@ def total(company, selected_keys=TAX_NAMES):
     keys = [k for k in company.keys() if k in selected_keys]
     return sum([company[k] for k in keys])
 
-def paid_something(company):
-    return total(company) != 0 
+def is_nil(company):
+    return total(company) == 0 
 
 def no_space(s):
     return s.lower().replace(" ", "") 
@@ -108,6 +112,7 @@ def inspect(filename):
 # состыковать налог ан прибыль
 # кто в каких режимах, планки по размеру 
 # связь с базами (ФОТ, объем активов)
+# связь налогов друг с другом 
 
 # ---    
 
@@ -116,11 +121,19 @@ def inspect(filename):
 
 # ---    
 
+# разобрать название на части
+
+# ---   
+
     
 if __name__ == "__main__":
     FILENAME = '361db.xml'
-    alls = from_file(FILENAME)
-    xs = list(filter(paid_something, alls))
+    xs = [x for x in from_file(FILENAME) if not is_nil(x)]
     pprint(xs)
-    print(len(alls), len(xs)) 
-
+    assert len(xs) == 30
+             
+    print("| Ключ | Вид налога |")                            
+    print("|:----:| --- |")              
+    for key in TAX_NAMES:
+       print( f"| **{key}** | ", translate(key), "|")          
+    
