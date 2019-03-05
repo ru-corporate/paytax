@@ -2,7 +2,8 @@
 
 Домашняя страница набора данных: <https://www.nalog.ru/opendata/7707329152-paytax>
 
-Пресс-релиз: <https://www.nalog.ru/rn77/news/activities_fts/8165638>
+Пресс-релиз: <https://www.nalog.ru/rn77/news/activities_fts/7847733/>
+
 
 ## Как использовать
 
